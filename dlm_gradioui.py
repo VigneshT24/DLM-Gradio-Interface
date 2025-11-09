@@ -258,12 +258,12 @@ with gr.Blocks(title="DLM.AI", theme="citrus", css=combined_css) as dlm_app:
                     ">
                         <h3 style="color:#FFA500; text-align:left;">About DLM.AI</h3>
                         <p style="line-height:1.6;">
-                            <strong>DLM.AI</strong> is an AI-powered assistant built to handle domain-specific queries 
-                            and perform intelligent computations. In this application, it focuses on college-related 
-                            questions but can be adapted to virtually any field. It operates on a 
-                            <strong>Hybrid AI architecture</strong> that merges rule-based reasoning with advanced 
-                            machine learning for both accuracy and transparency. As with any AI system, responses 
-                            may occasionally be imprecise, so user discretion is advised.
+                            <strong>DLM.AI</strong> is an AI assistant built for domain-specific reasoning and computation. 
+                            In this app, it focuses on college-related queries but can adapt to any field. 
+                            Using a <strong>Hybrid AI architecture</strong> with <strong>SpaCy</strong> and <strong>HuggingFace Transformers</strong>, 
+                            it combines rule-based logic and machine learning for accuracy and context awareness. 
+                            Its <strong>Auto-Routing</strong> system switches between <em>Memory</em> and <em>Compute</em> models depending on the query. 
+                            As with any AI, occasional inaccuracies may occur.
                         </p>
                         <p style="margin-top:12px; font-size:0.9rem; color:#9ca3af;">
                             © 2025 Vignesh Thondikulam (DLM.AI). All rights reserved.
