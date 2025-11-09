@@ -221,17 +221,69 @@ with gr.Blocks(title="DLM.AI", theme="citrus", css=combined_css) as dlm_app:
     agree_btn = gr.Button("I Agree", elem_id="agree-btn", variant="primary")
 
     with gr.Group(visible=False) as chat_screen:
+        info_text = gr.Markdown(visible=False)
         with gr.Row():
             # Sidebar
             with gr.Column(scale=1, visible=False, elem_id="sidebar-column") as sidebar:
                 close_sidebar_btn = gr.Button("✕ Close", elem_id="close-sidebar-btn")
-                new_chat_btn = gr.Button("➕ New Chat", elem_id="new-chat-btn", variant="primary")
+                new_chat_btn = gr.Button("✛ New Chat", elem_id="new-chat-btn", variant="primary")
+                info_btn = gr.Button("Info", elem_id="info-btn")
+
+                info_visible = gr.State(False)
+
+                def toggle_info(current_visibility):
+                    """Toggles the info window visibility and hides 'Previous Chats' when visible."""
+                    show_info = not current_visibility
+                    return (
+                        show_info,                                 # new state value
+                        gr.update(visible=show_info),              # info popup visibility
+                        gr.update(visible=not show_info)           # hide/show history radio
+                    )
+
+                # Create the popup content (initially hidden)
+                with gr.Column(visible=False, elem_id="info-popup") as info_popup:
+                    gr.HTML("""
+                    <div style="
+                        background: #1a1c22;
+                        border: 1px solid #2d2f36;
+                        border-radius: 12px;
+                        padding: 24px;
+                        width: 100%;
+                        max-width: none;
+                        margin: 20px 0;
+                        color: #f3f4f6;
+                        text-align: left;
+                        font-family: 'Inter', sans-serif;
+                        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+                    ">
+                        <h3 style="color:#FFA500; text-align:left;">About DLM.AI</h3>
+                        <p style="line-height:1.6;">
+                            <strong>DLM.AI</strong> is an AI-powered assistant built to handle domain-specific queries 
+                            and perform intelligent computations. In this application, it focuses on college-related 
+                            questions but can be adapted to virtually any field. It operates on a 
+                            <strong>Hybrid AI architecture</strong> that merges rule-based reasoning with advanced 
+                            machine learning for both accuracy and transparency. As with any AI system, responses 
+                            may occasionally be imprecise, so user discretion is advised.
+                        </p>
+                        <p style="margin-top:12px; font-size:0.9rem; color:#9ca3af;">
+                            © 2025 Vignesh Thondikulam (DLM.AI). All rights reserved.
+                        </p>
+                    </div>
+                    """)
                 
+                # Previous Chats Radio
                 history_radio = gr.Radio(
                     choices=[],
                     label="Previous Chats (Only This Session)",
                     elem_id="history-radio",
                     interactive=True
+                )
+
+                # When "Info" is clicked → toggle the popup & hide 'Previous Chats'
+                info_btn.click(
+                    fn=toggle_info,
+                    inputs=[info_visible],
+                    outputs=[info_visible, info_popup, history_radio]
                 )
             
             # Main chat area
